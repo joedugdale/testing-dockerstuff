@@ -1,0 +1,20 @@
+version: '2'  
+services:  
+  jenkins:
+    image: joetestjenkins:latest
+    container_name: joetestjenkins
+    user: jenkins
+    volumes:
+      - /data/jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      JENKINS_HOST_HOME: "/data/jenkins"
+    links:
+    - node_ci
+    ports:
+    - 8083:8083
+    - 50000:50000
+  node_ci:
+   build: ../jenkins-slave
+   ports:
+    - 22
